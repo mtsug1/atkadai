@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { render } from 'react-dom';
+import Toast from './components/Toast';
 
 class KadaiComponent extends React.Component<any, any> {
     constructor() {
@@ -8,7 +9,10 @@ class KadaiComponent extends React.Component<any, any> {
 
     render() {
         return (
-            <div>hello world!<p className="red">hoge</p></div>
+            <div>
+              hello world!
+              <Toast onRequestClose={() => console.log('close')}>hoge</Toast>
+            </div>
         );
     }
 }

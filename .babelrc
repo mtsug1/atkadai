@@ -1,4 +1,3 @@
 {
-  "presets": ["es2015", "stage-0", "react"],
-  "extensions": [".ts", ".tsx"]
+  "presets": ["es2015", "stage-0", "react"]
 }
