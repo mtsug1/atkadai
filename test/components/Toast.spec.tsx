@@ -23,8 +23,5 @@ describe('<Toast />', () => {
 
         clock.tick(2000);
         assert(props.onRequestClose.called === true);
-        var zero = 0, two = 2;
-        var arr = [1, 2, 3];
-        assert(arr.indexOf(zero) === two);
     });
 });
