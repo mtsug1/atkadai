@@ -10,8 +10,8 @@ class KadaiComponent extends React.Component<any, any> {
     render() {
         return (
             <div>
-              hello world!
-              <Toast onRequestClose={() => console.log('close')}>hoge</Toast>
+              <Toast onRequestClose={() => console.log('close')}
+                     onRequestAdd={() => console.log('add')}>hoge</Toast>
             </div>
         );
     }

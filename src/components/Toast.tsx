@@ -1,8 +1,10 @@
 import * as React from 'react';
+import * as ReactDOM from 'react-dom';
 
 
 export interface PropTypes {
     onRequestClose: Function;
+    onRequestAdd: Function;
 }
 
 
@@ -13,6 +15,10 @@ export default class Toast extends React.Component<PropTypes, any> {
     constructor(props) {
         super(props);
         this.handleClose = this.handleClose.bind(this);
+        this.handleAdd = this.handleAdd.bind(this);
+        this.state = {
+            toasts: []
+        }
     }
 
     componentDidMount() {
@@ -26,14 +32,29 @@ export default class Toast extends React.Component<PropTypes, any> {
 
     handleClose() {
         this.props.onRequestClose();
+        this.setState({ toasts: [] });
+    }
+
+    handleAdd() {
+        this.props.onRequestAdd();
+        const t = ReactDOM.findDOMNode(this.refs["textarea"])["value"];
+        const _toasts = this.state.toasts.concat(t);
+        this.setState({ toasts: _toasts })
     }
 
     render() {
       return (
           <div className="toast">
+              <div>{ this.state.toasts.join("\n") }</div>
               <button className="toast__close" onClick={this.handleClose}>
                   Close!
               </button>
+              <div>
+                  <textarea className="toast__text" ref="textarea" required></textarea>
+                  <button className="toast__add" onClick={this.handleAdd}>
+                      Add!
+                  </button>
+              </div>
               <div className="toast__body">{this.props.children}</div>
           </div>
       );
