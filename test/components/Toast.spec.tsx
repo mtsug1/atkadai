@@ -54,5 +54,42 @@ describe('<Toast />', () => {
         assert(props.onRequestAdd.called === true);
     });
 
+    it('Should add correct value on add click with its textarea', () => {
+        const props = { onRequestClose: sinon.spy(),
+                        onRequestAdd: sinon.spy() };
+        const wrapper = mount(<Toast {...props} />);
+        wrapper.find('.toast__text').first().simulate('change', {value: "test1"});
+        wrapper.find('.toast__add').simulate('click');
+        assert( JSON.stringify(wrapper.state().toasts) === JSON.stringify([ [ 'test1' ] ]));
+
+        wrapper.find('.toast__text').first().simulate('change', {value: "test2"});
+        wrapper.find('.toast__add').simulate('click');
+        assert( JSON.stringify(wrapper.state().toasts) === JSON.stringify([ [ 'test1' ], ['test2'] ]));
+    });
+
+    it('Should delete Toast on 3 seconds after add', () => {
+        const props = { onRequestClose: sinon.spy(),
+                        onRequestAdd: sinon.spy() };
+        const wrapper = mount(<Toast {...props} />);
+        const clock = sinon.useFakeTimers();
+
+        clock.tick(3000);
+        const add = (str) => {
+            wrapper.find('.toast__text').first().simulate('change', {value: str});
+            wrapper.find('.toast__add').simulate('click');
+        }
+        add('hoge1');
+        add('hoge2');
+        clock.tick(1000);
+        add('hoge3');
+        assert( JSON.stringify(wrapper.state().toasts) === JSON.stringify([ [ 'hoge1' ], [ 'hoge2' ], [ 'hoge3' ] ]));
+
+        clock.tick(2000);
+        assert( JSON.stringify(wrapper.state().toasts) === JSON.stringify([ [ 'hoge3' ] ]));
+
+        clock.tick(1000);
+        assert( JSON.stringify(wrapper.state().toasts) === JSON.stringify([]));
+    });
+
 
 });

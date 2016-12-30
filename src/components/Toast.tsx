@@ -46,8 +46,6 @@ export default class Toast extends React.Component<PropTypes, any> {
         setTimeout( () => {
             const _ts = this.state.toasts;
             const _toasts = _ts.filter( (x) => { return x !== t;} )
-            console.log(t);
-            console.log(this.state.toasts)
             this.setState({ toasts: _toasts });
         }, 3000);
     }
