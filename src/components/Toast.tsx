@@ -17,6 +17,7 @@ export default class Toast extends React.Component<PropTypes, any> {
         this.handleClose = this.handleClose.bind(this);
         this.handleAdd = this.handleAdd.bind(this);
         this.state = {
+            textarea: "",
             toasts: []
         }
     }
@@ -50,8 +51,11 @@ export default class Toast extends React.Component<PropTypes, any> {
                   Close!
               </button>
               <div>
-                  <textarea className="toast__text" ref="textarea" required></textarea>
-                  <button className="toast__add" onClick={this.handleAdd}>
+                  <textarea className="toast__text" ref="textarea" value={ this.state.textarea } required onChange={ (e) => { this.setState({ textarea: e["value"] })}}></textarea>
+                  <button className="toast__add" onClick={ () => {
+                      if(ReactDOM.findDOMNode(this.refs["textarea"])["value"] !== ""){
+                          this.handleAdd(); 
+                      }}}>
                       Add!
                   </button>
               </div>

@@ -9,7 +9,6 @@ describe('<Toast />', () => {
         const props = { onRequestClose: sinon.spy(),
                         onRequestAdd: sinon.spy() };
         const wrapper = mount(<Toast {...props} />);
-
         wrapper.find('.toast__close').simulate('click');
         assert(props.onRequestClose.called === true);
     });
@@ -27,6 +26,21 @@ describe('<Toast />', () => {
         assert(props.onRequestClose.called === true);
     });
 
+    it('Should change value of textarea on change text', () => {
+        const props = { onRequestClose: sinon.spy(),
+                        onRequestAdd: sinon.spy() };
+        const wrapper = mount(<Toast {...props} />);
+
+        wrapper.find('.toast__text').first().simulate('change', {value: 'test'});
+        assert(wrapper.find('.toast__text').text() === 'test');
+
+        wrapper.find('.toast__text').first().simulate('change', {value: 'hoge'});
+        assert(wrapper.find('.toast__text').text() === 'hoge');
+
+        wrapper.find('.toast__text').first().simulate('change', {value: ''});
+        assert(wrapper.find('.toast__text').text() === '');
+    })
+
     it('Should not call onRequestAdd callback on add click with empty textarea', () => {
         const props = { onRequestClose: sinon.spy(),
                         onRequestAdd: sinon.spy() };
@@ -35,7 +49,7 @@ describe('<Toast />', () => {
         wrapper.find('.toast__add').simulate('click');
         assert(props.onRequestAdd.called === false);
 
-        wrapper.find('.toast__text').simulate('change', {traget: {value: 'test'}});
+        wrapper.find('.toast__text').first().simulate('change', {value: 'hoge'});
         wrapper.find('.toast__add').simulate('click');
         assert(props.onRequestAdd.called === true);
     });
