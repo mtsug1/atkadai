@@ -38,9 +38,18 @@ export default class Toast extends React.Component<PropTypes, any> {
 
     handleAdd() {
         this.props.onRequestAdd();
-        const t = ReactDOM.findDOMNode(this.refs["textarea"])["value"];
-        const _toasts = this.state.toasts.concat(t);
+        const t = [ ReactDOM.findDOMNode(this.refs["textarea"])["value"] ];
+        const _toasts = this.state.toasts;
+        _toasts.push(t);
         this.setState({ toasts: _toasts })
+
+        setTimeout( () => {
+            const _ts = this.state.toasts;
+            const _toasts = _ts.filter( (x) => { return x !== t;} )
+            console.log(t);
+            console.log(this.state.toasts)
+            this.setState({ toasts: _toasts });
+        }, 3000);
     }
 
     render() {
